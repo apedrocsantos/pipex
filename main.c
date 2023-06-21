@@ -18,15 +18,14 @@
 
 int main(int argc, char *argv[], char *envp[])
 {
-    int i = 0;
+    int i = 2;
     char ***commands;
     
     argv++;
     commands = (char ***)malloc(sizeof(char) * (argc/2 + 1));
-    while (argc - i > 0)
+    while (i < arc)
     {
-        if (argc % 2 == 0)
-            commands[i] = ft_split(argv[i], ' ');
+        commands[i] = ft_split(argv[i], ' ');
         i++;
     }
     i = 0;
