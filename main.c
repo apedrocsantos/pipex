@@ -19,11 +19,11 @@
 int main(int argc, char *argv[], char *envp[])
 {
     int i = 2;
-    char ***commands;
+    char **commands[argc - 3];
     
     argv++;
-    commands = (char ***)malloc(sizeof(char) * (argc/2 + 1));
-    while (i < arc)
+    commands = (char *)malloc(sizeof(char) * (argc - 3);
+    while (i < argc - 1)
     {
         commands[i] = ft_split(argv[i], ' ');
         i++;
