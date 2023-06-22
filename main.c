@@ -6,32 +6,37 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:59:10 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/19 16:52:51 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:36:34 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <stdlib.h>
 #include "libft.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[])
 {
-    int i = 2;
-    char **commands[argc - 3];
-    
-    argv++;
-    commands = (char *)malloc(sizeof(char) * (argc - 3);
-    while (i < argc - 1)
-    {
-        commands[i] = ft_split(argv[i], ' ');
-        i++;
-    }
-    i = 0;
+	int		i;
+	int		j;
+	char	***commands;
 
-        while (commands[i])
-            ft_printf("%s\n", commands[i++]);
+	commands = (char ***)malloc(sizeof(char) * (argc - 3));
+	i = 1;
+	j = 0;
+	while (i < argc - 2)
+	{
+		commands[j] = ft_split(argv[i], ' ');
+		ft_printf("%s\n", commands[j][0]);
+		i++;
+	}
+	i = 0;
+	j = 0;
+	while (commands[i])
+	{
+		ft_printf("%s\n", commands[i++][0]);
+	}
 }
 
 // /user/bin/cat    which cat

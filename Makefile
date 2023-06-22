@@ -8,14 +8,14 @@ NAME = pipex
 
 CC = cc 
 
-CFLAGS = -Wall -Werror -Wextra -fsanitize=leak
+CFLAGS = -Wall -Werror -Wextra -g
 
 VPATH=src
 
 all: $(NAME)
 
 $(NAME): $(SRCS)
-	$(CC) $(INCLUDES)  $^ $(LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES)  $^ $(LIB) -o $(NAME)
 
 fclean:
 	rm -f $(NAME)
