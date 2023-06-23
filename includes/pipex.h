@@ -6,22 +6,27 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/23 13:08:26 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:14:56 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <unistd.h>
+#ifndef PIPEX_H
+# define PIPEX_H
 
-typedef struct p_list {
-    char ***commands;
-    char **path_list;
-    char *path;
-    
-}   pipe_list;
+# include "libft.h"
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-char    *check_path(char **paths, char *commands);
-void    mega_free(pipe_list pipe);
+typedef struct a_list
+{
+	char	***args;
+	char	**path_list;
+
+}			t_pipe;
+
+int	check_path(char **paths, t_pipe *pipe);
+void	mega_free(t_pipe pipe);
+
+# endif
