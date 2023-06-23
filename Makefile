@@ -1,4 +1,6 @@
-SRCS =	main.c
+SRCS =	find_path.c\
+		mega_free.c\
+		main.c
 
 LIB = -L . -lft
 
