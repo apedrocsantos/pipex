@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 11:20:49 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/23 17:09:19 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:10:57 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	mega_free(t_pipe pipe)
 	{
 		j = 0;
 		while (pipe.args[i][j])
-				free(pipe.args[i][j++]);
+			free(pipe.args[i][j++]);
 		free(pipe.args[i++]);
 	}
 	free(pipe.args);
