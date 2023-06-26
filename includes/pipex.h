@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/25 16:52:09 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/26 12:40:32 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 # include "errno.h"
 
 typedef struct a_list

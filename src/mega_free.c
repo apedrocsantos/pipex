@@ -6,28 +6,28 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 11:20:49 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/25 15:10:57 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:38:57 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	mega_free(t_pipe pipe)
+void	mega_free(t_pipe pipex)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (pipe.args[i])
+	while (pipex.args[i])
 	{
 		j = 0;
-		while (pipe.args[i][j])
-			free(pipe.args[i][j++]);
-		free(pipe.args[i++]);
+		while (pipex.args[i][j])
+			free(pipex.args[i][j++]);
+		free(pipex.args[i++]);
 	}
-	free(pipe.args);
+	free(pipex.args);
 	i = 0;
-	while (pipe.path_list[i])
-		free(pipe.path_list[i++]);
-	free(pipe.path_list);
+	while (pipex.path_list[i])
+		free(pipex.path_list[i++]);
+	free(pipex.path_list);
 }
