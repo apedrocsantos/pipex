@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/26 13:38:47 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/28 19:11:59 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,23 @@ char	*join_three(char *s1, char *s2, char *s3)
 
 int	check_path(char **paths, t_pipe *pipex)
 {
-	int		i, j, g;
+	int		i, j;
 	char	*str_to_check;
 
 	i = 0;
 	j = 0;
-	g = 0;
 	while (pipex->args[j])
 	{
 		if (ft_strchr(*pipex->args[j], '/'))
 		{
+			// ft_printf("accessing %s\n", *pipex->args[j]);
 			if (access(*pipex->args[j], X_OK) != 0)
 			{
 				ft_printf("%s: %s: %s\n", pipex->shell, strerror(errno), *pipex->args[j]);
 				mega_free(*pipex);
 				return (-1);
 			}
+			pipex->path[j] = ft_strdup(*pipex->args[j]);
 			j++;
 		}
 		else
@@ -50,8 +51,7 @@ int	check_path(char **paths, t_pipe *pipex)
 				str_to_check = join_three(paths[i], "/", *pipex->args[j]);
 				if (access(str_to_check, X_OK) == 0)
 				{
-					free(*pipex->args[j]);
-					*pipex->args[j++] = str_to_check;
+					pipex->path[j++] = str_to_check;
 					i = 0;
 					break;
 				}
