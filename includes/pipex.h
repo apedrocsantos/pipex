@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/27 10:21:04 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:01:50 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include "errno.h"
 
 typedef struct a_list
@@ -32,7 +32,7 @@ typedef struct a_list
 
 }			t_pipe;
 
-int	check_path(char **paths, t_pipe *pipe);
+int		check_path(char **paths, t_pipe *pipe);
 void	mega_free(t_pipe pipe);
 
-# endif
+#endif
