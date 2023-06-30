@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/30 14:11:30 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:54:00 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_full_path(t_pipe *pipex, int j)
 {
 	if (access(*pipex->args[j], X_OK) != 0)
 		ft_printf("%s: no such file or directory: %s\n", pipex->shell,
-				*pipex->args[j]);
+			*pipex->args[j]);
 }
 
 int	check_path(t_pipe *pipex, int j)
@@ -48,7 +48,7 @@ int	check_path(t_pipe *pipex, int j)
 		if (!pipex->path_list[i + 1])
 		{
 			printf("%s: command not found: %s\n", pipex->shell,
-					*pipex->args[j]);
+				*pipex->args[j]);
 			free(str_to_check);
 			break ;
 		}
