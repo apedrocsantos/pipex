@@ -6,18 +6,20 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:59:10 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/30 13:48:29 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/30 16:27:19 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/pipex.h"
 
-void	get_paths(char *envp[], t_pipe *pipex, int argc, char *argv[])
+void	init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[])
 {
 	int	i;
 	int	j;
 
 	i = -1;
+	if (access(argv[1], R_OK) == -1)
+		ft_printf("%s: no such file or directory: %s\n", "zsh", argv[1]);
 	pipex->args = (char ***)malloc(sizeof(char ***) * (argc - 2));
 	while (envp[++i])
 	{
@@ -110,22 +112,24 @@ int	ft_pipex(char *argv[], t_pipe *pipex, int argc)
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_pipe	pipex;
+	int		return_value;
 
+	return_value = 0;
 	if (argc < 5)
 	{
 		ft_printf("Incorrect number of arguments\n");
 		return (1);
 	}
-	if (open(argv[1], O_RDONLY) == -1)
-		ft_printf("%s: no such file or directory: %s\n", "zsh", argv[1]);
-	get_paths(envp, &pipex, argc, argv);
-	if (check_paths(&pipex) == -1)
-		return (0);
-	if (ft_pipex(argv, &pipex, argc) == -1)
-	{
+	init_pipex(envp, &pipex, argc, argv);
+	if (access(argv[argc -1], W_OK) == -1)
+	{	
 		mega_free(pipex);
-		return (127);
+		ft_printf("%s: permission denied: %s\n", "zsh", argv[argc -1]);
+		return (1);
 	}
+	check_paths(&pipex);
+	if (ft_pipex(argv, &pipex, argc) == -1)
+		return_value = 127;
 	mega_free(pipex);
-	return (0);
+	return (return_value);
 }
