@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/29 19:08:29 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/30 14:11:30 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,62 +23,53 @@ char	*join_three(char *s1, char *s2, char *s3)
 	return (two);
 }
 
-// int	check_full_path(char **paths, t_pipe *pipex)
-// {
-	
-// }
-
-// int check_path(char **paths, t_pipe *pipex)
-// {
-	
-// }
-
-int	check_path(char **paths, t_pipe *pipex)
+void	check_full_path(t_pipe *pipex, int j)
 {
-	char	*str_to_check;
+	if (access(*pipex->args[j], X_OK) != 0)
+		ft_printf("%s: no such file or directory: %s\n", pipex->shell,
+				*pipex->args[j]);
+}
+
+int	check_path(t_pipe *pipex, int j)
+{
 	int		i;
-	int		j;
+	char	*str_to_check;
+
+	i = 0;
+	while (pipex->path_list[i])
+	{
+		str_to_check = join_three(pipex->path_list[i], "/", *pipex->args[j]);
+		if (access(str_to_check, X_OK) == 0)
+		{
+			free(*pipex->args[j]);
+			*pipex->args[j++] = str_to_check;
+			break ;
+		}
+		if (!pipex->path_list[i + 1])
+		{
+			printf("%s: command not found: %s\n", pipex->shell,
+					*pipex->args[j]);
+			free(str_to_check);
+			break ;
+		}
+		i++;
+		free(str_to_check);
+	}
+	return (0);
+}
+
+int	check_paths(t_pipe *pipex)
+{
+	int	j;
 
 	j = 0;
 	while (pipex->args[j])
 	{
 		if (ft_strchr(*pipex->args[j], '/'))
-		{
-			if (access(*pipex->args[j], X_OK) != 0)
-			{
-				pipex->path[j] = ft_strdup(*pipex->args[j]);
-				ft_printf("%s: %s: %s\n", pipex->shell, strerror(errno),
-						*pipex->args[j]);
-			}
-			else
-				pipex->path[j] = ft_strdup(*pipex->args[j]);
-			j++;
-		}
+			check_full_path(pipex, j);
 		else
-		{
-			i = 0;
-			while (paths[i] && pipex->args[j])
-			{
-				str_to_check = join_three(paths[i], "/", *pipex->args[j]);
-				if (access(str_to_check, X_OK) == 0)
-				{
-					pipex->path[j++] = str_to_check;
-					break;
-				}
-				else
-				{
-					if (!paths[i + 1])
-					{
-						pipex->path[j] = str_to_check;
-						printf("%s: command not found: %s\n", pipex->shell,
-								*pipex->args[j++]);
-						break;
-					}
-					i++;
-					free(str_to_check);
-				}
-			}
-		}
+			check_path(pipex, j);
+		j++;
 	}
 	return (0);
 }

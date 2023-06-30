@@ -1,13 +1,11 @@
+Makefile
+PIPEXaminator
 file1
 file2
 includes
 libft.a
 main.c
-Makefile
 pipex
-PIPEXaminator
-pipexMedic
 pipex-tester
-re
+pipexMedic
 src
-test

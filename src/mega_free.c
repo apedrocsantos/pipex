@@ -6,11 +6,16 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 11:20:49 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/29 18:43:43 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:36:52 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+// void free_fd_pid(t_pipe pipex)
+// {
+// 	int size = sizeof(pipex.fd[30]);
+// }
 
 void	mega_free(t_pipe pipex)
 {
@@ -31,7 +36,5 @@ void	mega_free(t_pipe pipex)
 		free(pipex.path_list[i++]);
 	free(pipex.path_list);
 	i = 0;
-	while (pipex.path[i])
-		free(pipex.path[i++]);
-	free(pipex.path);
+	// free_fd_pid(pipex);
 }
