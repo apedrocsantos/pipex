@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/30 15:01:13 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:30:11 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ typedef struct a_list
 	char	***args;
 	char	**path_list;
 	char	*shell;
+	int		infile;
+	int		outfile;
+	int		**fd;
+	int		cmd_nbr;
 }			t_pipe;
 
 int		check_paths(t_pipe *pipe);
