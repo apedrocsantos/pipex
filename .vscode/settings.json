@@ -2,6 +2,7 @@
     "files.associations": {
         "pipex.h": "c",
         "unistd.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "wait.h": "c"
     }
 }

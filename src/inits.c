@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_path.c                                        :+:      :+:    :+:   */
+/*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/01 20:30:26 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/01 23:34:35 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	check_full_path(t_pipe *pipex, int j)
+void	init_fds(t_pipe *pipex)
 {
-	if (access(*pipex->args[j], X_OK) != 0)
-		write_error(pipex, *pipex->args[j]);
+	int	i;
+
+	pipex->fd = (int **)calloc((pipex->cmd_nbr + 1), sizeof(int **));
+	i = -1;
+	while (++i < pipex->cmd_nbr)
+		pipex->fd[i] = (int *)malloc(sizeof(int *) * 2);
+	i = -1;
+	while (++i < pipex->cmd_nbr)
+		pipe(pipex->fd[i]);
 }
 
-int	check_path(t_pipe *pipex, int j)
+int	check_paths(t_pipe *pipex, int j)
 {
 	int		i;
 	char	*str_to_check;
@@ -35,7 +42,6 @@ int	check_path(t_pipe *pipex, int j)
 		}
 		if (!pipex->path_list[i + 1])
 		{
-			write_error(pipex, *pipex->args[j]);
 			free(str_to_check);
 			break ;
 		}
@@ -45,18 +51,29 @@ int	check_path(t_pipe *pipex, int j)
 	return (0);
 }
 
-int	check_paths(t_pipe *pipex)
+void	init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[])
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	while (pipex->args[j])
+	pipex->cmd_nbr = argc - 3;
+	while (envp[++i])
 	{
-		if (ft_strchr(*pipex->args[j], '/'))
-			check_full_path(pipex, j);
-		else
-			check_path(pipex, j);
-		j++;
+		if (ft_strnstr(envp[i], "PATH=", 5))
+			pipex->path_list = ft_split(&envp[i][5], ':');
+		if (ft_strnstr(envp[i], "SHELL=", 6))
+		{
+			pipex->shell = ft_strrchr(envp[i], '/');
+			pipex->shell++;
+		}
 	}
-	return (0);
+	pipex->args = (char ***)ft_calloc(argc - 2, sizeof(char ***));
+	i = -1;
+	while ((++i + 2) < argc - 1)
+	{
+		pipex->args[i] = ft_split(argv[i + 2], ' ');
+		if (!ft_strchr(*pipex->args[i], '/'))
+			check_paths(pipex, i);
+	}
+	i = -1;
+	init_fds(pipex);
 }

@@ -1,4 +1,4 @@
-SRCS =	find_path.c\
+SRCS =	inits.c\
 		mega_free.c\
 		utils.c\
 		main.c
@@ -11,7 +11,7 @@ NAME = pipex
 
 CC = cc 
 
-CFLAGS = -Wall -Werror -Wextra -g 
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 
 VPATH=src
 
