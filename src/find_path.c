@@ -6,28 +6,16 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/30 16:54:00 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/01 20:30:26 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-char	*join_three(char *s1, char *s2, char *s3)
-{
-	char	*one;
-	char	*two;
-
-	one = ft_strjoin(s1, s2);
-	two = ft_strjoin(one, s3);
-	free(one);
-	return (two);
-}
-
 void	check_full_path(t_pipe *pipex, int j)
 {
 	if (access(*pipex->args[j], X_OK) != 0)
-		ft_printf("%s: no such file or directory: %s\n", pipex->shell,
-			*pipex->args[j]);
+		write_error(pipex, *pipex->args[j]);
 }
 
 int	check_path(t_pipe *pipex, int j)
@@ -47,8 +35,7 @@ int	check_path(t_pipe *pipex, int j)
 		}
 		if (!pipex->path_list[i + 1])
 		{
-			printf("%s: command not found: %s\n", pipex->shell,
-				*pipex->args[j]);
+			write_error(pipex, *pipex->args[j]);
 			free(str_to_check);
 			break ;
 		}

@@ -6,22 +6,22 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/06/30 18:30:11 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/01 20:20:15 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include "errno.h"
 # include "libft.h"
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include "errno.h"
 
 typedef struct a_list
 {
@@ -34,7 +34,12 @@ typedef struct a_list
 	int		cmd_nbr;
 }			t_pipe;
 
-int		check_paths(t_pipe *pipe);
-void	mega_free(t_pipe pipe);
+int			check_paths(t_pipe *pipe);
+void		mega_free(t_pipe pipe);
+void		close_fds(int i, t_pipe *pipex);
+void		init_fds(t_pipe *pipex);
+void		init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[]);
+char		*join_three(char *s1, char *s2, char *s3);
+void		write_error(t_pipe *pipex, char *arg);
 
 #endif
