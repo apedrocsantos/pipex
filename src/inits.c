@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/02 10:51:13 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:58:49 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,6 @@ void	init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[])
 	while ((++i + 2) < argc - 1)
 	{
 		pipex->args[i] = split_args(argv[i + 2]);
-		// int j = -1;
-		// while (pipex->args[i][++j])
-		// 	ft_printf("%s\n", pipex->args[i][j]);
 		if (!ft_strchr(*pipex->args[i], '/'))
 			check_paths(pipex, i);
 	}
