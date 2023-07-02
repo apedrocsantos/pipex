@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/01 23:25:19 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/02 09:58:24 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ void		init_fds(t_pipe *pipex);
 void		init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[]);
 char		*join_three(char *s1, char *s2, char *s3);
 void		write_error(t_pipe *pipex, char *arg);
+char 		**split_args(char *str);
 
 #endif

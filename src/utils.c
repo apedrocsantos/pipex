@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 20:01:51 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/02 00:02:41 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/02 11:06:01 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,67 @@ void	write_error(t_pipe *pipex, char *arg)
 	free(str);
 	free(str2);
 	free(error);
+}
+
+int	count_words(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (*str)
+	{
+		if (*str == ' ')
+			str++;
+		if (*str == '\'')
+		{
+			i++;
+			str++;
+			while (*str && *str != '\'')
+				str++;
+		}
+		else
+		{
+			i++;
+			while (*str && *str != ' ')
+				str++;
+		}
+		str++;
+	}
+	return (i);
+}
+
+char	**split_args(char *str)
+{
+	int	i;
+	int g;
+	int	len;
+	char	**arr;
+
+	i = 0;
+	g = 0;
+	arr = (char **)malloc(sizeof(char**) * (count_words(str) + 1));
+	while (str[i])
+	{
+		ft_printf("here:%\t%c\n", str[i]);
+		len = 0;
+		while (str[i] == ' ')
+			i++;
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i + len] && str[i + len] != '\'')
+				len++;
+		}
+		else
+			while (str[i + len] && str[i + len] != ' ')
+				len++;
+		arr[g] = ft_substr(str, i, len);
+		ft_printf("%s\n", arr[g]);
+		g++;
+		i += len;
+	}
+	arr[g] = NULL;
+	return(arr);
 }
 
 char	*join_three(char *s1, char *s2, char *s3)

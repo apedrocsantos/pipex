@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:59:10 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/01 23:36:41 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/02 11:02:26 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	main(int argc, char *argv[], char *envp[])
 		write_error(&pipex, argv[argc - 1]);
 		return (1);
 	}
+	split_args("aeiouo 'asdlfkj  asd'    b   ");
 	if (ft_pipex(&pipex, envp) == -1)
 		return_value = 1;
 	mega_free(pipex);
