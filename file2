@@ -1,4 +1,0 @@
-errno: 2
-error closing fd[1][0]: 5
-error closing fd[0][0]: 3
-exit status: 0

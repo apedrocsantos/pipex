@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:59:10 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/03 19:22:24 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/04 00:14:31 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	child_process(t_pipe *pipex, int i, char *envp[])
 			close(pipex->infile);
 		close(pipex->outfile);
 		close_fds(pipex, i);
+		exit (-1);
 	}
 }
 
@@ -62,13 +63,11 @@ int	ft_pipex(t_pipe *pipex, char *envp[])
 			child_process(pipex, i, envp);
 		wait(&status);
 	}
-	int exit = WEXITSTATUS(status);
 	if (pipex->infile != -1)
 		close(pipex->infile);
 	close_fds(pipex, i);
 	close(pipex->outfile);
-	ft_printf("exit status: %d\n", exit);
-	return (exit);
+	return (0);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -80,7 +79,7 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc < 5)
 	{
 		ft_putstr_fd(("Incorrect number of arguments\n"), 2);
-		return (1);
+		return (-1);
 	}
 	if (init_pipex(envp, &pipex, argc, argv) == -1)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 20:01:51 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/03 19:09:55 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/03 23:44:38 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	write_error(t_pipe *pipex, char *arg)
 	char	*str2;
 	char	*error;
 
-	ft_printf("errno: %d\n", errno);
+	// ft_printf("errno: %d\n", errno);
 	error = ft_strdup(strerror(errno));
 	*error += 32;
 	// if (!ft_strchr(arg, '/') && ft_strncmp())
