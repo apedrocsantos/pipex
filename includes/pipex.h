@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/02 18:58:38 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:06:24 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct a_list
 {
 	char	***args;
 	char	**path_list;
+	char	**cmd_list;
 	char	*shell;
 	int		infile;
 	int		outfile;
@@ -34,13 +35,14 @@ typedef struct a_list
 	int		cmd_nbr;
 }			t_pipe;
 
-int			check_paths(t_pipe *pipe, int i);
+void		check_paths(t_pipe *pipe, int i);
 void		mega_free(t_pipe pipe);
-void		close_fds(t_pipe *pipex);
-void		init_fds(t_pipe *pipex);
-void		init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[]);
+void		close_fds(t_pipe *pipex, int j);
+int			init_fds(t_pipe *pipex);
+int			init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[]);
 char		*join_three(char *s1, char *s2, char *s3);
 void		write_error(t_pipe *pipex, char *arg);
-char 		**split_args(char *str);
+char		**split_args(char *str);
+int			open_io(t_pipe *pipex, int argc, char *argv[]);
 
 #endif

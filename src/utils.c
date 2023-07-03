@@ -6,28 +6,28 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 20:01:51 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/02 17:52:45 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/03 19:09:55 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	close_fds(t_pipe *pipex)
+void	close_fds(t_pipe *pipex, int j)
 {
 	int	i;
+	int	fd_no;
 
 	i = pipex->cmd_nbr;
 	while (i--)
 	{
-		// ft_printf("closing %d and %d\n", pipex->fd[i][0], pipex->fd[i][1]);
-		if (close(pipex->fd[i][0]) == -2)
-			ft_printf("error closing fd[%d][0]\n", i);
-		if (close(pipex->fd[i][1]) == -2)
-			ft_printf("error closing fd[%d][1]\n", i);
-		if (pipex->outfile != -1)
+		fd_no = close(pipex->fd[i][0]);
+		if (fd_no == -1)
+			ft_printf("error closing fd[%d][0]: %d\n", i, pipex->fd[i][0]);
+		if (i > j)
 		{
-			if (close(pipex->outfile) == -2)
-				ft_printf("error closing outfile %d\n", pipex->outfile);
+			fd_no = close(pipex->fd[i][1]);
+			if (fd_no == -1)
+				ft_printf("error closing fd[%d][1]: %d\n", i, pipex->fd[i][0]);
 		}
 	}
 }
@@ -38,8 +38,14 @@ void	write_error(t_pipe *pipex, char *arg)
 	char	*str2;
 	char	*error;
 
+	ft_printf("errno: %d\n", errno);
 	error = ft_strdup(strerror(errno));
 	*error += 32;
+	// if (!ft_strchr(arg, '/') && ft_strncmp())
+	// {
+	// 	free(error);
+	// 	error = ft_strdup("command not found");
+	// }
 	str = join_three(pipex->shell, ": ", error);
 	str2 = join_three(str, ": ", arg);
 	ft_putendl_fd(str2, 2);
@@ -50,27 +56,26 @@ void	write_error(t_pipe *pipex, char *arg)
 
 int	count_words(char *str)
 {
-	int	i;
+	int		i;
+	char	c;
 
 	i = 0;
 	while (*str)
 	{
-		if (*str == ' ')
+		c = ' ';
+		while (*str == ' ')
 			str++;
+		if (!*str)
+			break ;
 		if (*str == '\'')
 		{
-			i++;
 			str++;
-			while (*str && *str != '\'')
-				str++;
+			c = '\'';
 		}
-		else
-		{
-			i++;
-			while (*str && *str != ' ')
-				str++;
-		}
-		if (*str == '\'')
+		i++;
+		while (*str && *str != c)
+			str++;
+		if (c != ' ')
 			str++;
 	}
 	return (i);
@@ -78,31 +83,33 @@ int	count_words(char *str)
 
 char	**split_args(char *str)
 {
+	char	**arr;
 	int		i;
 	int		g;
 	int		len;
-	char	**arr;
+	char	c;
 
 	i = 0;
 	g = 0;
 	arr = (char **)ft_calloc(count_words(str) + 1, sizeof(char **));
 	while (str[i])
 	{
+		c = ' ';
 		len = 0;
 		while (str[i] == ' ')
 			i++;
+		if (!str[i])
+			break ;
 		if (str[i] == '\'')
 		{
 			i++;
-			while (str[i + len] && str[i + len] != '\'')
-				len++;
+			c = '\'';
 		}
-		else
-			while (str[i + len] && str[i + len] != ' ')
-				len++;
+		while (str[i + len] && str[i + len] != c)
+			len++;
 		arr[g++] = ft_substr(str, i, len);
 		i += len;
-		if (str[i] == '\'')
+		if (c != ' ')
 			i++;
 	}
 	return (arr);

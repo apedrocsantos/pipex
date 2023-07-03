@@ -1,13 +1,4 @@
-a.out
-delme.c
-file1
-file2
-includes
-libft.a
-main.c
-Makefile
-pipex
-PIPEXaminator
-pipexMedic
-pipex-tester
-src
+errno: 2
+error closing fd[1][0]: 5
+error closing fd[0][0]: 3
+exit status: 0
