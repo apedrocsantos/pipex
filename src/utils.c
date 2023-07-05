@@ -6,11 +6,26 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 20:01:51 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/05 12:13:50 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:05:32 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+void	get_shell(char *envp[], t_pipe *pipex)
+{
+	int	i;
+
+	i = -1;
+	while (envp[++i])
+	{
+		if (ft_strnstr(envp[i], "SHELL=", 6))
+		{
+			pipex->shell = ft_strrchr(envp[i], '/');
+			pipex->shell++;
+		}
+	}
+}
 
 void	close_fds(t_pipe *pipex, int j)
 {
@@ -27,7 +42,7 @@ void	close_fds(t_pipe *pipex, int j)
 	}
 }
 
-void	write_error(t_pipe *pipex, char *arg, int error)
+void	write_error(t_pipe *pipex, char *arg, int is_command)
 {
 	char	*str;
 	char	*str2;
@@ -35,14 +50,14 @@ void	write_error(t_pipe *pipex, char *arg, int error)
 
 	error_msg = ft_strdup(strerror(errno));
 	*error_msg += 32;
-	if (error && !ft_strchr(arg, '/'))
+	if (is_command && !ft_strchr(arg, '/'))
 	{
 		free(error_msg);
 		error_msg = ft_strdup("command not found");
 	}
 	str = join_three(pipex->shell, ": ", error_msg);
 	str2 = join_three(str, ": ", arg);
-	ft_putendl_fd(str2, 2);
+	ft_putendl_fd(str2, STDERR_FILENO);
 	free(str);
 	free(str2);
 	free(error_msg);

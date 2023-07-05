@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:58:33 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/04 16:09:05 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:30:54 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,28 @@ char	*create_delimiter(char *s1, char *s2)
 	return (str);
 }
 
-void	here_doc(int fdin, char *delim)
+int	here_doc(int fd, char *delim)
 {
 	char	*str;
 	int		flag;
-	// int 	fd[2];
 
 	str = "";
 	delim = create_delimiter(delim, "\n");
 	flag = 0;
-	// pipe(fd);
 	while (str)
 	{
-		str = get_next_line(fdin);
+		str = get_next_line(STDIN_FILENO);
 		if (!str)
 			break ;
 		if (!ft_strncmp(str, delim, ft_strlen(delim)))
 		{
-			close(fdin);
+			close(fd);
 			free(str);
 			free(delim);
-			exit (0);
+			return (0);
 		}
+		write(fd, str, ft_strlen(str));
 		free(str);
 	}
+	return (1);
 }
-
-// int	main(void)
-// {
-// 	here_doc("hi");
-// }

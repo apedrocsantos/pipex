@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/05 12:12:22 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:18:40 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,26 @@
 
 int	open_io(t_pipe *pipex, int argc, char *argv[])
 {
+	pipex->outfile = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (pipex->outfile == -1)
+	{
+		write_error(pipex, argv[argc - 1], 0);
+		return (1);
+	}
+	if (!strncmp(argv[1], "here_doc", 9))
+	{
+		pipex->infile = open(argv[1], O_CREAT | O_WRONLY | O_EXCL | O_APPEND,
+				0664);
+		if (pipex->infile == -1)
+		{
+			perror("here_doc");
+			return (2);
+		}
+		here_doc(pipex->infile, "ai");
+	}
 	pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
 		write_error(pipex, argv[1], 0);
-	pipex->outfile = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 00664);
-	if (pipex->outfile == -1)
-	{
-		close_fds(pipex, -1);
-		mega_free(*pipex);
-		write_error(pipex, argv[argc - 1], 0);
-		return (-1);
-	}
 	return (0);
 }
 
@@ -74,21 +83,21 @@ int	init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[])
 {
 	int	i;
 
-	i = 0;
-	pipex->cmd_nbr = argc - 3;
+	i = -1;
+	// if (!ft_strncmp(argv[1], "here_doc", 9))
+	// 	pipex->cmd_nbr = argc - 4;
+	// else
+		pipex->cmd_nbr = argc - 3;
 	while (envp[++i])
 	{
 		if (ft_strnstr(envp[i], "PATH=", 5))
 			pipex->path_list = ft_split(&envp[i][5], ':');
-		if (ft_strnstr(envp[i], "SHELL=", 6))
-		{
-			pipex->shell = ft_strrchr(envp[i], '/');
-			pipex->shell++;
-		}
 	}
-	pipex->args = (char ***)ft_calloc(argc - 2, sizeof(char ***));
-	pipex->cmd_list = (char **)ft_calloc(argc - 2, sizeof(char **));
+	pipex->args = (char ***)ft_calloc(pipex->cmd_nbr + 1, sizeof(char ***));
+	pipex->cmd_list = (char **)ft_calloc(pipex->cmd_nbr + 1, sizeof(char **));
 	i = -1;
+	// if (!ft_strncmp(argv[1], "here_doc", 9))
+	// 	i++;
 	while ((++i + 2) < argc - 1)
 	{
 		pipex->args[i] = ft_split(argv[i + 2], ' ');
