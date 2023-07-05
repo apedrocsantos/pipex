@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/05 17:18:40 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:59:50 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	open_io(t_pipe *pipex, int argc, char *argv[])
 		if (pipex->infile == -1)
 		{
 			perror("here_doc");
-			return (2);
+			return (1);
 		}
 		here_doc(pipex->infile, "ai");
 	}
