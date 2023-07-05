@@ -6,11 +6,11 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 11:20:49 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/03 13:43:13 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:10:17 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 void	mega_free(t_pipe pipex)
 {

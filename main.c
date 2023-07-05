@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:59:10 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/04 00:14:31 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:15:52 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@ void	child_process(t_pipe *pipex, int i, char *envp[])
 		dup2(pipex->fd[i + 1][1], STDOUT_FILENO);
 	if (execve(pipex->cmd_list[i], pipex->args[i], envp) == -1)
 	{
-		write_error(pipex, pipex->cmd_list[i]);
-		if (pipex->infile != -1)
-			close(pipex->infile);
-		close(pipex->outfile);
+		write_error(pipex, pipex->args[i][0], 1);
 		close_fds(pipex, i);
-		exit (-1);
+		close(pipex->outfile);
+		mega_free(*pipex);
+		exit (127);
 	}
 }
 
@@ -49,9 +48,6 @@ int	ft_pipex(t_pipe *pipex, char *envp[])
 		pid = fork();
 		if (pid == -1)
 		{
-			ft_putstr_fd("Error while forking. Closing.\n", 2);
-			if (pipex->infile != -1)
-				close(pipex->infile);
 			close_fds(pipex, i);
 			close(pipex->outfile);
 			return (-1);
@@ -63,11 +59,9 @@ int	ft_pipex(t_pipe *pipex, char *envp[])
 			child_process(pipex, i, envp);
 		wait(&status);
 	}
-	if (pipex->infile != -1)
-		close(pipex->infile);
 	close_fds(pipex, i);
 	close(pipex->outfile);
-	return (0);
+	return (WEXITSTATUS(status));
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -79,10 +73,10 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argc < 5)
 	{
 		ft_putstr_fd(("Incorrect number of arguments\n"), 2);
-		return (-1);
+		return (1);
 	}
 	if (init_pipex(envp, &pipex, argc, argv) == -1)
-		return (-1);
+		return (1);
 	if (open_io(&pipex, argc, argv) == -1)
 		return (EPERM);
 	return_value = ft_pipex(&pipex, envp);

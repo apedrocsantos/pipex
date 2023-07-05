@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/03 19:06:42 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/05 12:12:22 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,13 @@ int	open_io(t_pipe *pipex, int argc, char *argv[])
 {
 	pipex->infile = open(argv[1], O_RDONLY);
 	if (pipex->infile == -1)
-		write_error(pipex, argv[1]);
+		write_error(pipex, argv[1], 0);
 	pipex->outfile = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 00664);
 	if (pipex->outfile == -1)
 	{
-		if (pipex->infile != -1)
-			close(pipex->infile);
 		close_fds(pipex, -1);
 		mega_free(*pipex);
-		write_error(pipex, argv[argc - 1]);
+		write_error(pipex, argv[argc - 1], 0);
 		return (-1);
 	}
 	return (0);
@@ -93,7 +91,7 @@ int	init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[])
 	i = -1;
 	while ((++i + 2) < argc - 1)
 	{
-		pipex->args[i] = split_args(argv[i + 2]);
+		pipex->args[i] = ft_split(argv[i + 2], ' ');
 		pipex->cmd_list[i] = ft_strdup(pipex->args[i][0]);
 		if (!ft_strchr(pipex->cmd_list[i], '/'))
 			check_paths(pipex, i);
