@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/06 18:06:29 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/06 17:55:13 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,25 @@
 
 int	open_io(t_pipe *pipex, int argc, char *argv[])
 {
-	pipex->ofd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (!strncmp(argv[1], "here_doc", 9))
+		pipex->ofd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0664);
+	else
+		pipex->ofd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (pipex->ofd == -1)
 	{
 		write_error(pipex, argv[argc - 1], 0);
 		return (1);
+	}
+	if (!strncmp(argv[1], "here_doc", 9))
+	{
+		pipex->ifd = open(argv[1], O_CREAT | O_WRONLY | O_EXCL | O_APPEND,
+				0664);
+		if (pipex->ifd == -1)
+		{
+			perror("here_doc");
+			return (1);
+		}
+		here_doc(pipex->ifd, argv[2]);
 	}
 	pipex->ifd = open(argv[1], O_RDONLY);
 	if (pipex->ifd == -1)
@@ -83,6 +97,8 @@ int	init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[])
 	pipex->cmd_list = (char **)ft_calloc(pipex->cmd_nbr + 1, sizeof(char **));
 	i = -1;
 	g = 2;
+	if (!ft_strncmp(argv[1], "here_doc", 9))
+		g++;
 	while (g < argc - 1)
 	{
 		pipex->args[++i] = ft_split(argv[g++], ' ');

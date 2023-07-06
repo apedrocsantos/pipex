@@ -3,6 +3,7 @@
         "pipex.h": "c",
         "unistd.h": "c",
         "types.h": "c",
-        "wait.h": "c"
+        "wait.h": "c",
+        "stdlib.h": "c"
     }
 }

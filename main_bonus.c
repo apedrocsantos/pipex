@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:59:10 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/06 18:14:56 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/06 17:55:39 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ int	main(int argc, char *argv[], char *envp[])
 	int		return_value;
 
 	return_value = 0;
-	if (argc != 5)
+	if (argc < 5)
 	{
 		ft_putstr_fd(("Incorrect number of arguments\n"), 2);
 		return (1);
 	}
-	get_shel(argc, envp, &pipex);
+	get_shell(argc, argv, envp, &pipex);
 	return_value = open_io(&pipex, argc, argv);
 	if (return_value != 0)
 		return (return_value);
@@ -83,6 +83,8 @@ int	main(int argc, char *argv[], char *envp[])
 	return_value = ft_pipex(&pipex, envp);
 	if (return_value == -1)
 		ft_putstr_fd("Error while forking. Program closed.\n", 2);
+	if (!ft_strncmp(argv[1], "here_doc", 9))
+		unlink("here_doc");
 	mega_free(pipex);
 	return (return_value);
 }

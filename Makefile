@@ -1,10 +1,15 @@
 SRCS =	inits.c\
 		mega_free.c\
 		utils.c\
-		here_doc.c\
 		main.c
 
-LIB = -L . -lft
+BONUS =	inits_bonus.c\
+		mega_free.c\
+		utils_bonus.c\
+		here_doc_bonus.c\
+		main_bonus.c
+
+LIB = -L . -lft gnl.a
 
 INCLUDES= -I ./includes
 
@@ -18,12 +23,21 @@ VPATH=src
 
 all: $(NAME)
 
+bonus: $(BONUS)
+	$(CC) $(CFLAGS) $(INCLUDES)  $^ $(LIB) -o $(NAME)
+
 $(NAME): $(SRCS)
-	$(CC) $(CFLAGS) $(INCLUDES)  $^ $(LIB) gnl.a -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES)  $^ $(LIB) -o $(NAME)
+
+libft:
+	$(MAKE) -C libft
+	mv ./libft/libft.a .
 
 fclean:
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all fclean re 
+re_bonus: fclean bonus
+
+.PHONY: all fclean re re_bonus libft

@@ -6,13 +6,13 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 20:01:51 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/06 18:14:06 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/06 17:53:09 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	get_shel(int argc, char *envp[], t_pipe *pipex)
+void	get_shell(int argc, char *argv[], char *envp[], t_pipe *pipex)
 {
 	int	i;
 
@@ -25,7 +25,10 @@ void	get_shel(int argc, char *envp[], t_pipe *pipex)
 			pipex->shell++;
 		}
 	}
-	pipex->cmd_nbr = argc - 3;
+	if (!ft_strncmp(argv[1], "here_doc", 9))
+		pipex->cmd_nbr = argc - 4;
+	else
+		pipex->cmd_nbr = argc - 3;
 }
 
 void	close_fds(t_pipe *pipex, int j)

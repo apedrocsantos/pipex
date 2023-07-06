@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 13:58:33 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/05 18:08:54 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/06 17:55:36 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ char	*create_delimiter(char *s1, char *s2)
 int	here_doc(int fd, char *delim)
 {
 	char	*str;
-	int		flag;
 
 	str = "";
 	delim = create_delimiter(delim, "\n");
-	flag = 0;
 	while (str)
 	{
 		str = get_next_line(STDIN_FILENO);

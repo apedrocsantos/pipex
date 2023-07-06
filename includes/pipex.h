@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:58:25 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/05 17:05:36 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/06 18:14:28 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct a_list
 	char	**path_list;
 	char	**cmd_list;
 	char	*shell;
-	int		infile;
-	int		outfile;
+	int		ifd;
+	int		ofd;
 	int		**fd;
 	int		cmd_nbr;
 }			t_pipe;
@@ -42,11 +42,11 @@ int			init_fds(t_pipe *pipex);
 int			init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[]);
 char		*join_three(char *s1, char *s2, char *s3);
 void		write_error(t_pipe *pipex, char *arg, int error);
-char		**split_args(char *str);
+void		get_shel(int argc, char *envp[], t_pipe *pipex);
 int			open_io(t_pipe *pipex, int argc, char *argv[]);
 int			here_doc(int fd, char *delim);
 char		*join_two(char *s1, char *s2);
 char		*get_next_line(int fd);
-void		get_shell(char *envp[], t_pipe *pipex);
+void		get_shell(int argc, char *argv[], char *envp[], t_pipe *pipex);
 
 #endif
