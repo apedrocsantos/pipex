@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 15:59:10 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/06 18:14:56 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:25:15 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,16 @@ int	ft_pipex(t_pipe *pipex, char *envp[])
 	{
 		pid = fork();
 		if (pid == -1)
-		{
-			close_fds(pipex, i);
-			close(pipex->ofd);
 			return (-1);
-		}
 		if (i == 0 && pipex->ifd == -1)
 			i++;
 		close(pipex->fd[i][1]);
 		if (pid == 0)
 			child_process(pipex, i, envp);
-		wait(&status);
 	}
+	i = -1;
+	while (++i < pipex->cmd_nbr)
+		waitpid(-1, &status, 0);
 	close_fds(pipex, i);
 	close(pipex->ofd);
 	return (WEXITSTATUS(status));

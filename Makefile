@@ -9,7 +9,7 @@ BONUS =	inits_bonus.c\
 		here_doc_bonus.c\
 		main_bonus.c
 
-LIB = -L . -lft gnl.a
+LIB = libft.a
 
 INCLUDES= -I ./includes
 
@@ -26,18 +26,22 @@ all: $(NAME)
 bonus: $(BONUS)
 	$(CC) $(CFLAGS) $(INCLUDES)  $^ $(LIB) -o $(NAME)
 
-$(NAME): $(SRCS)
+$(NAME): $(SRCS) $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDES)  $^ $(LIB) -o $(NAME)
 
-libft:
+$(LIB):
 	$(MAKE) -C libft
-	mv ./libft/libft.a .
+	mv libft/$(LIB) .
+	$(MAKE) -C libft clean
+
+clean:
+	rm -f $(NAME)
 
 fclean:
-	rm -f $(NAME)
+	rm -f $(NAME) $(LIB)
 
 re: fclean all
 
-re_bonus: fclean bonus
+re_bonus: fclean $(LIB) bonus
 
-.PHONY: all fclean re re_bonus libft
+.PHONY: all bonus clean fclean re re_bonus

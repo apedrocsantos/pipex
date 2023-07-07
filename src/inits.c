@@ -6,7 +6,7 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 09:55:29 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/06 18:06:29 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/07 16:19:11 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	open_io(t_pipe *pipex, int argc, char *argv[])
 {
+	pipex->ifd = open(argv[1], O_RDONLY);
+	if (pipex->ifd == -1)
+		write_error(pipex, argv[1], 0);
 	pipex->ofd = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (pipex->ofd == -1)
 	{
 		write_error(pipex, argv[argc - 1], 0);
 		return (1);
 	}
-	pipex->ifd = open(argv[1], O_RDONLY);
-	if (pipex->ifd == -1)
-		write_error(pipex, argv[1], 0);
 	return (0);
 }
 
@@ -52,12 +52,16 @@ void	check_paths(t_pipe *pipex, int j)
 {
 	int		i;
 	char	*str_to_check;
+	char	*empty;
 
 	i = 0;
+	empty = ft_strdup("");
 	while (pipex->path_list[i])
 	{
+		if (!ft_strncmp(pipex->cmd_list[j], empty, 1))
+			break ;
 		str_to_check = join_three(pipex->path_list[i], "/", pipex->cmd_list[j]);
-		if (access(str_to_check, X_OK) == 0)
+		if (access(str_to_check, X_OK | F_OK) == 0)
 		{
 			free(pipex->cmd_list[j]);
 			pipex->cmd_list[j++] = str_to_check;
@@ -66,6 +70,7 @@ void	check_paths(t_pipe *pipex, int j)
 		i++;
 		free(str_to_check);
 	}
+	free(empty);
 }
 
 int	init_pipex(char *envp[], t_pipe *pipex, int argc, char *argv[])

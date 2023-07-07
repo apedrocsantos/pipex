@@ -6,13 +6,15 @@
 /*   By: anda-cun <anda-cun@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 16:47:34 by anda-cun          #+#    #+#             */
-/*   Updated: 2023/07/06 19:39:15 by anda-cun         ###   ########.fr       */
+/*   Updated: 2023/07/07 09:25:35 by anda-cun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "ft_printf.h"
+# include "get_next_line_bonus.h"
 # include "libft.h"
 # include <stddef.h>
 # include <stdlib.h>
